@@ -1,5 +1,6 @@
 const assert = require("assert");
-const { open } = require("..");
+const { open, csvParser } = require("..");
+const toArray = require("stream-to-array");
 
 const descriptor = {
   path: "https://people.sc.fsu.edu/~jburkardt/data/csv/addresses.csv",
@@ -10,6 +11,29 @@ const descriptor = {
   encoding: "utf-8",
 };
 
+const expectedRows = [
+  ["John", "Doe", "120 jefferson st.", "Riverside", "NJ", "08075"],
+  ["Jack", "McGinnis", "220 hobo Av.", "Phila", "PA", "09119"],
+  ['John "Da Man"', "Repici", "120 Jefferson St.", "Riverside", "NJ", "08075"],
+  [
+    "Stephen",
+    "Tyler",
+    '7452 Terrace "At the Plaza" road',
+    "SomeTown",
+    "SD",
+    "91234",
+  ],
+  ["", "Blankman", "", "SomeTown", "SD", "00298"],
+  [
+    'Joan "the bone", Anne',
+    "Jet",
+    "9th, at Terrace plc",
+    "Desert City",
+    "CO",
+    "00123",
+  ],
+];
+
 async function test(blob) {
   var file = open(blob);
   assert.equal(
@@ -17,6 +41,9 @@ async function test(blob) {
     JSON.stringify(descriptor),
     "Not equal"
   );
+  const parsedFile = await csvParser(file);
+  const rows = await toArray(parsedFile);
+  assert.equal(JSON.stringify(rows), JSON.stringify(expectedRows), "Not equal");
 }
 
 //URL
