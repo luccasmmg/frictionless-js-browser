@@ -1,5 +1,5 @@
 {
-  "name": "rollup-starter-lib",
+  "name": "frictionless-js-browser",
   "version": "1.0.0",
   "main": "dist/frictionless-js-browser.cjs.js",
   "module": "dist/frictionless-js-browser.esm.js",
