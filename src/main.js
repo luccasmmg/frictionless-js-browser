@@ -1,12 +1,9 @@
-import ms from 'ms';
-import lunchtime from './lunchtime.js';
-import millisecondsUntil from './millisecondsUntil.js';
-
-export default function howLongUntilLunch(hours, minutes) {
-	// lunch is at 12.30
-	if (hours === undefined) hours = 12;
-	if (minutes === undefined) minutes = 30;
-
-	var millisecondsUntilLunchTime = millisecondsUntil(lunchtime(hours, minutes));
-	return ms(millisecondsUntilLunchTime, { long: true });
-}
+export { open, parsePath, parseDatasetIdentifier, isUrl } from "./data";
+export { File } from "./file-base";
+export { FileInterface } from "./file-interface";
+export { FileRemote } from "./file-remote";
+export { FileInline } from "./file-inline";
+export { Dataset } from "./dataset";
+export { csvParser } from "./parser/csv";
+export { xlsxParser } from "./parser/xlsx";
+export { computeHash } from "./file-base";
