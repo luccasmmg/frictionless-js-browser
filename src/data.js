@@ -1,5 +1,3 @@
-import path from "path";
-import url from "url";
 import fetch from "node-fetch";
 import { cloneDeep, isPlainObject, isString } from "lodash";
 import mime from "mime-types";
@@ -14,6 +12,8 @@ import { FileRemote } from "./file-remote";
 import { FileInline } from "./file-inline";
 
 export const DEFAULT_ENCODING = "utf-8";
+export const CHAR_DOT = 46; /* . */
+export const CHAR_FORWARD_SLASH = 47; /* / */
 
 // Available parsers per file format
 export const PARSE_DATABASE = {
@@ -105,7 +105,7 @@ export const parsePath = (path_, basePath = null, format = null) => {
   let fileName;
   const isItUrl = isUrl(path_) || isUrl(basePath);
   if (isItUrl) {
-    const urlParts = url.parse(path_);
+    const urlParts = new URL(path_);
     // eslint-disable-next-line no-useless-escape
     fileName = urlParts.pathname.replace(/^.*[\\\/]/, "");
     // Check if format=csv is provided in the query
@@ -160,15 +160,7 @@ export const parseDatasetIdentifier = async (path_) => {
   out.type = isUrl(path_) ? "url" : "local";
   let normalizedPath = path_.replace(/\/?datapackage\.json/, "");
   normalizedPath = normalizedPath.replace(/\/$/, "");
-  if (out.type === "local") {
-    // eslint-disable-next-line no-undef
-    if (process.platform === "win32") {
-      out.path = path.resolve(normalizedPath);
-    } else {
-      out.path = path.posix.resolve(normalizedPath);
-    }
-    out.name = path.basename(out.path);
-  } else if (out.type === "url") {
+  if (out.type === "url") {
     const urlparts = url.parse(normalizedPath);
     const parts = urlparts.pathname.split("/");
     let name = parts[parts.length - 1];
