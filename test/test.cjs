@@ -1,6 +1,5 @@
 const assert = require("assert");
-const { open, csvParser } = require("..");
-const toArray = require("stream-to-array");
+const { open, csvParser } = require("../dist/frictionless-js-browser.cjs");
 
 const descriptor = {
   path: "https://people.sc.fsu.edu/~jburkardt/data/csv/addresses.csv",
@@ -41,8 +40,9 @@ async function test(blob) {
     JSON.stringify(descriptor),
     "Not equal"
   );
+  console.log(file);
   const parsedFile = await csvParser(file);
-  const rows = await toArray(parsedFile);
+  console.log(parsedFile);
   assert.equal(JSON.stringify(rows), JSON.stringify(expectedRows), "Not equal");
 }
 

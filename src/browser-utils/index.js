@@ -1,4 +1,4 @@
-import { Readable } from "stream";
+import { Readable } from "stream-browserify";
 import { ReadableWebToNodeStream } from "readable-web-to-node-stream";
 
 /**

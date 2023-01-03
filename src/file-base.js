@@ -4,7 +4,6 @@ import toArray from "stream-to-array";
 import { isPlainObject } from "lodash";
 import { guessParseOptions } from "./parser/csv";
 import { webToNodeStream } from "./browser-utils/index";
-const { Transform } = require("stream");
 /**
  * Abstract Base instance of File
  */
